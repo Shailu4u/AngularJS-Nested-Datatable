@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>AngularJS Nested DataTable</title>
+    <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.min.css"/>
+    <style>
+        .col-1 { width: 20px; }
+        .accordion {
+            font-size: 32px;
+            cursor: pointer;
+            font-weight: bold;
+            color: orangered;
+            border: 1px solid orangered;
+            border-radius: 15px;
+            height: 26px;
+            width: 26px;
+            display: inline-block;
+            text-align: center;
+            line-height: 0.7;
+        }
+        .innerDiv { border: 1px solid #ccc; }
+        .innerDiv .accordion { position: relative; top: 10px;}
+        .heading { text-align: center;text-decoration: underline; margin-bottom: 20px; font-weight: normal; color: darksalmon;}
+        table.dataTable tbody th, table.dataTable tbody td { text-align: center;  text-transform: capitalize;  color: navy;}
+        table.dataTable thead th, table.dataTable thead td { color: limegreen;}
+        .innerDiv table.dataTable thead th, table.dataTable thead td {  color: deepskyblue;}
+    </style>
+</head>
+<body>
+    <div> <h1 class="heading"></h1> </div>
+
+    <div style="width: 75%; margin: 0 auto;" ng-controller="MyController">
+        <!--Nested table container-->
+        <ng-nested-datatable   data="tableData"
+                               outer-table-config="outerDefaults"
+                               inner-table-config="innerDefaults">
+        </ng-nested-datatable>
+    </div>
+
+<!--javascript files-->
+<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="src/ng-nested-datatable.js"></script>
+<script type="text/javascript" src="app.js"></script>
+
+</body>
+</html>
