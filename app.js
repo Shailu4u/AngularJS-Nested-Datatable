@@ -14,12 +14,13 @@
 
     angular
         .module("myApp", ["nestedDataTable"])
-        .controller("MyController",["$scope","DataService",appController])
+        .controller("MyController",["$scope","DataService", "$timeout",appController])
         .service("DataService",["$http",dataService]);
         /*page app controller*/
-        function appController($scope, DataService){
+        function appController($scope, DataService, $timeout){
             //tableData supplied to custom element.
             $scope.tableData = {};
+            $scope.showTable = false; //initial value false
             //outer datatable configuration
             $scope.outerDefaults = {
                 sPaginationType: "full_numbers",
@@ -34,16 +35,34 @@
             /*get table data from data.json file*/
             DataService.get()
                 .success(function(data){
-                    $scope.tableData = data;//console.log($scope.outerDefaults)
+                    $scope.showTable = true;
+                    $scope.tableData = data;
                 })
                 .error(function(data, status) {
                     console.log("Error:"+status);
                 });
+
+            //When ever you change data, just re-initiate the directive using $scope.showTable
+            $timeout(function(){
+                $scope.showTable = false;
+                DataService.newData()
+                  .success(function(data){
+                      $scope.showTable = true;
+                      $scope.tableData = data;
+                  })
+                  .error(function(data, status) {
+                      console.log("Error:"+status);
+                  });
+            },3000);// timeout of 3 seconds
         }
         /*service to get table data*/
         function dataService($http) {
             this.get = function () {
                 return $http.get("src/data.json");
+            };
+
+            this.newData = function () {
+                return $http.get("src/data1.json");
             }
         }
 })();
